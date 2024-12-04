@@ -35,7 +35,7 @@ class MobileNetV3_FaceRecognition(nn.Module):
         super(MobileNetV3_FaceRecognition, self).__init__()
         
         # Tải MobileNetV3 đã huấn luyện sẵn
-        mobilenet_v3 = models.mobilenet_v3_large(weights=models.MobileNet_V3_Large_Weights.IMAGENET1K_V1)
+        mobilenet_v3 = models.mobilenet_v3_small(weights=models.MobileNet_V3_Small_Weights.IMAGENET1K_V1)
         
         # Lấy các lớp trích xuất đặc trưng từ MobileNetV3
         self.features = mobilenet_v3.features
@@ -44,7 +44,7 @@ class MobileNetV3_FaceRecognition(nn.Module):
         self.pooling = nn.AdaptiveAvgPool2d(1)  # Đưa về kích thước (1, 1)
         
         # Các lớp MLP để học đặc trưng sau khi trích xuất
-        self.fc1 = nn.Linear(960, 512)  # 960 là chiều đầu ra từ MobileNetV3
+        self.fc1 = nn.Linear(576, 512)  # 576 là chiều đầu ra từ MobileNetV3
         self.relu = nn.ReLU()
         self.fc2 = nn.Linear(512, 128)  # Lớp MLP thứ hai
         self.fc3 = nn.Linear(128, 128)  # Lớp MLP thứ ba để trích xuất đặc trưng cuối
