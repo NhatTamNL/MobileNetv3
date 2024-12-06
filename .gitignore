@@ -1,5 +1,5 @@
 __pycache__/
 env
-*.jpg
 ExtractedFaces
 Face_Data
+crop_data

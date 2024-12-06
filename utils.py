@@ -30,7 +30,7 @@ def compare_embeddings(embedding1, embedding2):
     return similarity
 
 
-def compare_correlation(embedding1, embedding2, threshold=0.8):
+def compare_correlation(embedding1, embedding2, threshold=0.9):
     """
     Tính khoảng cách tương quan giữa hai vector embedding và so sánh với threshold.
 

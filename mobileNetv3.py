@@ -79,5 +79,15 @@ class MobileNetV3_FaceRecognition(nn.Module):
         
         return x
 
+if __name__ == '__main__':
+    
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
+    model = MobileNetV3_FaceRecognition(embedding_dim=128).to(device)
+    
+    from torchsummary import summary
+    summary(model, input_size=(3, 224, 224))  # Xem thông tin model
+    # input_tensor = torch.randn(1, 3, 224, 224).to(device)
+    # embedding = model(input_tensor)
+    # print(embedding.shape) 
 # Ví dụ sử dụng
-model = MobileNetV3_FaceRecognition(embedding_dim=128)  # 10 người trong tập huấn luyện

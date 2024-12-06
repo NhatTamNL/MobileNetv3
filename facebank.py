@@ -2,12 +2,14 @@ import os
 import torch
 import numpy as np
 from utils import get_embedding
-from mobileNetv3 import MobileNetV3WithEmbedding
+from mobileNetv3 import MobileNetV3WithEmbedding, MobileNetV3_FaceRecognition
 
 # Load model
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = MobileNetV3WithEmbedding(embedding_dim=128).to(device)
-model.load_state_dict(torch.load('models/mobilenetv3_epoch50.pth'))
+# model = MobileNetV3WithEmbedding(embedding_dim=128).to(device)
+model = MobileNetV3_FaceRecognition(embedding_dim=128).to(device)
+
+model.load_state_dict(torch.load('model_regv2/mobilenetv3_epoch100.pth'))
 model.eval()
 
 # Dataset Facebank
@@ -23,7 +25,7 @@ for person_name in os.listdir(facebank_dir):
         img_path = os.path.join(person_dir, img_name)
         print(img_path,"img_path\n")
         embedding = get_embedding(img_path, model, device)
-        print(embedding,"embedding\n")
+        print(person_name,"person_name\n")
         embeddings.append(embedding)
         # embeddings_tensor = [torch.tensor(embedding) for embedding in embeddings]
 
@@ -31,6 +33,7 @@ for person_name in os.listdir(facebank_dir):
     # facebank[person_name] = torch.mean(torch.stack(embeddings_tensor), dim=0)
     embeddings_array = np.stack([np.array(embedding) for embedding in embeddings])
     facebank[person_name] = np.mean(embeddings_array, axis=0)
+    print(facebank[person_name],"AVG{}".format(person_name))
 
 # Lưu Facebank
 # torch.save(facebank, "facebank.pth")
